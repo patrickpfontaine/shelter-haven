@@ -17,7 +17,7 @@ app.post("/login", async (req, res) => {
     if (results.length > 0) {
       res.status(200).json({
         messsage: "Login successful",
-        volunteer: results[0],
+        user: results[0],
       });
     } else {
       res.status(401).json({ message: "Invalid email or password" });

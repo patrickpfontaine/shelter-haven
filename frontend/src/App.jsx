@@ -1,21 +1,48 @@
 import { useState } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 import axios from "axios";
 import "./App.css";
+
+import ManagerPage from "./pages/managerPage.jsx";
+import VictimPage from "./pages/victimPage.jsx";
+import VolunteerPage from "./pages/volunteerPage.jsx";
+
 
 function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8081/login", {
-        email,
-        password,
-      });
+      const res = await axios.post("http://localhost:8081/login", {email, password,});
+      const user = res.data.user;
       setMessage(res.data?.message || "Login successful");
-      console.log("Volunteer Info:", res.data.volunteer); // for testing
+      console.log("User Info:", res.data.user); // for testing
+      //onLogin(user);
+
+      switch (user.role) {
+        case "manager":
+          navigate("/manager");
+          break;
+        case "volunteer":
+          navigate("/volunteer");
+          break;
+        case "victim":
+          navigate("/victim");
+          break;
+        default:
+          navigate("/");
+      }    
+
     } catch (err) {
       console.error(err);
       setMessage("Login failed. Please check your credentials.");
