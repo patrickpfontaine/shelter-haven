@@ -9,7 +9,7 @@ export default function VolunteerPage() {
 
   useEffect(() => {
     const getShifts = async () => {
-      const userid = user?.volunteer_id;
+      const userid = user?.id;
       try {
         const res = await axios.get(
           `http://localhost:8081/volunteer/shift/${userid}`
@@ -28,7 +28,9 @@ export default function VolunteerPage() {
       <h1>Volunteer Page</h1>
       {user ? (
         <>
-          <p>Welcome, {user.volunteer_id}!</p>
+          <p>
+            Welcome, {user.first_name} {user.last_name}!
+          </p>
           <p>Your role is {user.role}.</p>
         </>
       ) : (
