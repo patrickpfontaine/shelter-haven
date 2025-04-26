@@ -1,26 +1,25 @@
-# Step 1: Build the app
-FROM node:16 AS build
+# Frontend Dockerfile (React + Vite)
+FROM node:18
 
+# Set working directory
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json ./
+# Copy package files and install dependencies
+COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the app
+# Copy source code
 COPY . .
 
-# Build the app for production
+# Build the React app
 RUN npm run build
 
-# Step 2: Serve the app with Nginx
-FROM nginx:alpine
+# Install serve to serve the static files
+RUN npm install -g serve
 
-# Copy the build output to Nginx's HTML folder
-COPY --from=build /app/dist /usr/share/nginx/html
+# Expose frontend port (Vite uses 5173 by default)
+EXPOSE 5173
 
-# Expose the port the app will run on
-EXPOSE 80
+# Serve the production build
+CMD ["serve", "-s", "dist"]
 
-# Run the Nginx server
-CMD ["nginx", "-g", "daemon off;"]

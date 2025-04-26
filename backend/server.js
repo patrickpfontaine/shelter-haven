@@ -7,13 +7,21 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
+//Aiven MySQL credentials
 const db = mysql.createConnection({
-    host: config.dbHost,
-    user: config.dbUser, 
-    password: config.dbPassword,
-    database: config.dbDatabase
+    host: 'shelter-db-cloud-patrick-eb07.g.aivencloud.com',
+    port: 10960,
+    user: 'avnadmin', 
+    password: 'AVNS_TeBOTJeaK4bb9gsnDP0',
+    database: 'defaultdb',
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
+
+//Connect to Aiven-hosted DB
 db.connect((err) => {
     if (err) {
       console.error("Error connecting to DB:", err);
@@ -23,18 +31,7 @@ db.connect((err) => {
   });
 
 
-// app.get('/', (re, res) => {
-//     console.log("getting")
-//     db.query("INSERT INTO SHELTER (shelter_name, shelter_id) VALUES ('Bee Cave Shelter', 1)", (err, result) => {
-//         if (err) {
-//             console.log("Error", err)
-//         } else {
-//             console.log("query works", result)
-//         }
-//     })
-// });
-
-
+//Login route
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
@@ -42,9 +39,9 @@ app.post('/login', (req, res) => {
         return res.status(400).send("Email and password are required.");
     }
 
-    const query = `SELECT * FROM VOLUNTEER WHERE email = ? AND passwrd = ?`;
+    const query = `SELECT first_name FROM VOLUNTEER WHERE email = ? AND pass = ? UNION SELECT victim_fname FROM VICTIM WHERE victim_email = ? AND victim_password = ?`;
 
-    db.query(query, [email, password], (err, results) => {
+    db.query(query, [email, password, email, password], (err, results) => {
         if (err) {
             console.error("Login query error:", err);
             return res.status(500).send("Server error");

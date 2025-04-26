@@ -1,17 +1,25 @@
-services:
-  mysql:
-    image: mysql:8.0
-    container_name: shelter-haven-db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: ${rootPassword}
-      MYSQL_DATABASE: ${mysqlDatabase}
-      MYSQL_USER: ${mysqlUser}
-      MYSQL_PASSWORD: ${mysqlPassword}
-    ports:
-      - "3306:3306"
-    volumes:  
-      - mysql-data:/var/lib/mysql
+version: '3.8'
 
-volumes:
-  mysql-data:
+services:
+  backend:
+    build: ./backend
+    container_name: shelter-backend
+    ports:
+      - "3000:3000"
+    environment:
+      MYSQL_HOST: mysqlHost
+      MYSQL_PORT: mysqlPort
+      MYSQL_USER: mysqlUser
+      MYSQL_PASSWORD: mysqlPass
+      MYSQL_DATABASE: mysqlDB
+    
+
+  frontend:
+    build: ./frontend
+    container_name: shelter-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://backend:3000
+    depends_on:
+      - backend
