@@ -5,7 +5,10 @@ const loginQueries = {
     return new Promise((resolve, reject) => {
       db.query(
         `SELECT vr.volunteer_id, 
-            CASE WHEN sh.manager_id IS NOT NULL THEN 'manager' ELSE 'volunteer' END AS role FROM VOLUNTEER vr 
+            CASE 
+                WHEN sh.manager_id IS NOT NULL 
+                THEN 'manager' ELSE 'volunteer' 
+            END AS role FROM VOLUNTEER vr 
             LEFT JOIN SHELTER sh ON sh.manager_id = vr.volunteer_id
             WHERE email = ? AND pass = ? 
             UNION 
