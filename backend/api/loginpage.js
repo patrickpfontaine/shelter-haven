@@ -12,7 +12,7 @@ const loginQueries = {
             LEFT JOIN SHELTER sh ON sh.manager_id = vr.volunteer_id
             WHERE email = ? AND pass = ? 
             UNION 
-            SELECT vm.victim_fname, 'victim' AS role FROM VICTIM vm 
+            SELECT vm.victim_id, 'victim' AS role FROM VICTIM vm 
             WHERE victim_email = ? AND victim_password = ?;`,
         [email, password, email, password],
         (err, results) => {

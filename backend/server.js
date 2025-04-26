@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const loginQueries = require("./api/loginpage");
 const volunteerQueries = require("./api/volunteer");
+const victimQueries = require("./api/victim");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -46,6 +47,25 @@ app.get("/volunteer/shift/:userId", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+/*-----------------------------------------------------
+                    VICTIM PAGE
+  ----------------------------------------------------*/
+app.get("/victim/:id", async (req, res) => {
+  try {
+    const victimId = req.params.id;
+    const profile = await victimQueries.getProfile(victimId);
+    if (!profile) {
+      return res.status(404).json({ message: "Victim not found" });
+    }
+    res.json(profile);
+  } catch (err) {
+    console.error("Victim route error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 /*-----------------------------------------------------
                   LISTENING ON PORT 8081
