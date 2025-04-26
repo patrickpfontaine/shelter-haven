@@ -8,13 +8,12 @@ import {
 } from "react-router-dom";
 import axios from "axios";
 import "./App.css";
-
-import ManagerPage from "./pages/managerPage.jsx";
-import VictimPage from "./pages/victimPage.jsx";
-import VolunteerPage from "./pages/volunteerPage.jsx";
-
+import { useContext } from "react";
+import { UserContext } from "./UserContext";
 
 function App() {
+  const { setUser } = useContext(UserContext); // <-- grab setUser
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -23,10 +22,13 @@ function App() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8081/login", {email, password,});
+      const res = await axios.post("http://localhost:8081/login", {
+        email,
+        password,
+      });
       const user = res.data.user;
       setMessage(res.data?.message || "Login successful");
-      console.log("User Info:", res.data.user); // for testing
+      setUser(user); // <-- save the user globally!
       //onLogin(user);
 
       switch (user.role) {
@@ -41,8 +43,7 @@ function App() {
           break;
         default:
           navigate("/");
-      }    
-
+      }
     } catch (err) {
       console.error(err);
       setMessage("Login failed. Please check your credentials.");

@@ -6,7 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-//Login route
+/*-----------------------------------------------------
+                      LOGIN POST
+  ----------------------------------------------------*/
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -15,7 +17,6 @@ app.post("/login", async (req, res) => {
     }
     const results = await loginQueries.signin(email, password);
     if (results.length > 0) {
-      displayHelper(results[0].volunteer_id, results[0].role);
       res.status(200).json({
         messsage: "Login successful",
         user: results[0],
@@ -29,12 +30,22 @@ app.post("/login", async (req, res) => {
   }
 });
 
-async function displayHelper(id, role) {
-  if (role == "volunteer") {
-    const results = await volunteerQueries.shifts(id);
-    console.log(results);
+/*-----------------------------------------------------
+                    VOLUNTEER PAGE
+  ----------------------------------------------------*/
+app.get("/volunteer/shift/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const results = await volunteerQueries.shifts(userId);
+    res.status(200).json({
+      messsage: "Shifts got",
+      shift: results,
+    });
+  } catch (err) {
+    console.error("Error getting shifts:", err);
+    res.status(500).json({ error: err.message });
   }
-}
+});
 
 /*-----------------------------------------------------
                   LISTENING ON PORT 8081
