@@ -54,12 +54,14 @@ app.get("/volunteer/:id", async (req, res) => {
   ----------------------------------------------------*/
 app.get("/victim/:id", async (req, res) => {
   try {
-    const victimId = req.params.id;
-    const profile = await victimQueries.getProfile(victimId);
-    if (!profile) {
-      return res.status(404).json({ message: "Victim not found" });
-    }
-    res.json(profile);
+    const { id } = req.params;
+    console.log("SERVER.JS: user id", id);
+    const profile = await victimQueries.getProfile(id);
+    const shelter = await victimQueries.getShelterInfo(id);
+    res.status(200).json({
+      profile: profile[0],
+      shelter: shelter[0]
+      });
   } catch (err) {
     console.error("Victim route error:", err);
     res.status(500).json({ error: err.message });
