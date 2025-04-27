@@ -34,13 +34,14 @@ app.post("/login", async (req, res) => {
 /*-----------------------------------------------------
                     VOLUNTEER PAGE
   ----------------------------------------------------*/
-app.get("/volunteer/shift/:userId", async (req, res) => {
+app.get("/volunteer/:id", async (req, res) => {
   try {
-    const { userId } = req.params;
-    const results = await volunteerQueries.shifts(userId);
+    const { id } = req.params;
+    const shifts = await volunteerQueries.getShifts(id);
+    const shelter = await volunteerQueries.getShelterInfo(id);
     res.status(200).json({
-      messsage: "Shifts got",
-      shift: results,
+      shift: shifts,
+      shelter: shelter[0],
     });
   } catch (err) {
     console.error("Error getting shifts:", err);

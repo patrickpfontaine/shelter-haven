@@ -52,7 +52,7 @@ function App() {
 
   return (
     <div className="login-container">
-      <h2>Volunteer Login</h2>
+      <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <div>
           <label>Email:</label>

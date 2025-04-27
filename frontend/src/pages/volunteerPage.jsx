@@ -2,54 +2,73 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import axios from "axios";
+import "./volunteerPage.css";
 
 export default function VolunteerPage() {
   const { user } = useContext(UserContext);
   const [shift, setShift] = useState(null);
+  const [shelter, setShelter] = useState(null);
 
   useEffect(() => {
-    const getShifts = async () => {
+    const getVolunteerInfo = async () => {
       const userid = user?.id;
       try {
         const res = await axios.get(
-          `http://localhost:8081/volunteer/shift/${userid}`
+          `http://localhost:8081/volunteer/${userid}`
         );
         setShift(res.data.shift);
+        setShelter(res.data.shelter);
       } catch (err) {
         console.error(err);
-        console.log("error");
       }
     };
-    getShifts();
+    getVolunteerInfo();
   }, [user]);
 
   return (
     <div className="page-container">
-      <h1>Volunteer Page</h1>
       {user ? (
         <>
-          <p>
+          <h1>
             Welcome, {user.first_name} {user.last_name}!
-          </p>
-          <p>Your role is {user.role}.</p>
+          </h1>
         </>
       ) : (
         <p>Loading user info...</p>
       )}
+
+      {shelter ? (
+        <>
+          <h3>{shelter.shelter_name}</h3>
+          <p>
+            {shelter.addr_street}, {shelter.addr_city}, {shelter.addr_state}
+          </p>
+        </>
+      ) : (
+        <p>Shelter info...</p>
+      )}
+
+      <h3>Your Shifts</h3>
       {shift && shift.length > 0 ? (
-        shift.map((s, index) => (
-          <div key={index} style={{ marginBottom: "1rem" }}>
-            <p>
-              <strong>Day:</strong> {s.shift_day}
-            </p>
-            <p>
-              <strong>Time:</strong> {s.shift_start_time}
-            </p>
-            <p>
-              <strong>End:</strong> {s.shift_end_time}
-            </p>
-          </div>
-        ))
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            {shift.map((s, index) => (
+              <tr key={index}>
+                <td>{s.shift_day}</td>
+                <td>
+                  {s.shift_start_time.slice(0, 5)} -{" "}
+                  {s.shift_end_time.slice(0, 5)}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       ) : (
         <p>No shifts found.</p>
       )}
