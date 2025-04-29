@@ -21,6 +21,7 @@ export default function VictimPage() {
         setProfile(res.data.profile)
         setShelter(res.data.shelter);
         setServices(res.data.services);
+        
       } catch (err) {
         console.error(err);
         console.log("error");
@@ -28,6 +29,30 @@ export default function VictimPage() {
     };
     getVictimInfo();
   }, [user]);
+
+  const handleRequestSubmit = async () => {
+    console.log("Selected Service:", selectedService);
+    console.log("User ID:", user?.id);
+    console.log("Shelter ID:", shelter?.shelter_id);
+    if (!selectedService || !user?.id || !shelter?.shelter_id) {
+      alert("Missing information to submit request.");
+      return;
+    }
+  
+    try {
+      const res = await axios.post("http://localhost:8081/request", {
+        victim_id: user.id,
+        service_type: selectedService,
+        shelter_id: shelter.shelter_id,
+      });
+      alert("Request submitted successfully!");
+      console.log("Request response:", res.data);
+    } catch (err) {
+      console.error("Error submitting request:", err);
+      alert("Failed to submit request.");
+    }
+  };
+  
 
   return (
     <div className="victim-page">
@@ -56,7 +81,7 @@ export default function VictimPage() {
       <div className = "service-info">
       { services && services?.length > 0 ? (
         <div className="service-list">
-          <h3>Services</h3>
+          <h3>Need something? Request a service.</h3>
           <select value={selectedService} onChange={(e) => setSelectedService(e.target.value)}>
             <option value="" disabled>Select a service</option>
             {services.map((svc,) => (
@@ -67,6 +92,7 @@ export default function VictimPage() {
       ) : (
         <p>Loading services…</p>
       ) }
+      <button onClick={handleRequestSubmit} disabled={!selectedService}>Request Service</button>
       </div>
 
       <div className="shelter-info">

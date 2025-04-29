@@ -55,7 +55,7 @@ app.get("/volunteer/:id", async (req, res) => {
 app.get("/victim/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log("SERVER.JS: user id", id);
+    //console.log("SERVER.JS: user id", id);
     const profile = await victimQueries.getProfile(id);
     const shelter = await victimQueries.getShelterInfo(id);
     const services = await victimQueries.getServices(id);
@@ -69,6 +69,22 @@ app.get("/victim/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+app.post("/request", async (req, res) => {
+  try {
+    const { victim_id, service_type, shelter_id } = req.body;
+    if (!victim_id || !service_type || !shelter_id) {
+      return res.status(400).json({ message: "Missing request fields" });
+    }
+
+    const result = await victimQueries.insertRequest(victim_id, service_type, shelter_id);
+    res.status(201).json(result);
+  } catch (err) {
+    console.error("Error submitting request:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 /*-----------------------------------------------------
                   LISTENING ON PORT 8081
