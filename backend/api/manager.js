@@ -1,0 +1,56 @@
+const db = require("../db");
+
+const managerQueries = {
+    getVolunteerList: (manager_id) => {
+        return new Promise((resolve, reject) => {
+          const query = `
+            SELECT 
+              v.volunteer_id,
+              v.first_name,
+              v.last_name,
+              s.shift_day,
+              s.shift_start_time,
+              s.shift_end_time
+            FROM VOLUNTEER v
+            JOIN SHIFT s ON v.volunteer_id = s.volunteer_id
+            WHERE v.shelter_id = (
+              SELECT shelter_id FROM SHELTER WHERE manager_id = ?
+            )
+            ORDER BY v.last_name, s.shift_day;
+          `;
+    
+          db.query(query, [manager_id], (err, results) => {
+            if (err) {
+              console.error("Failed to load volunteer shifts:", err);
+              reject(err);
+            } else {
+              // Grouping logic 
+              const grouped = {};
+              results.forEach(row => {
+                const id = row.volunteer_id;
+                if (!grouped[id]) {
+                  grouped[id] = {
+                    volunteer_id: id,
+                    first_name: row.first_name,
+                    last_name: row.last_name,
+                    shifts: []
+                  };
+                }
+                grouped[id].shifts.push({
+                  day: row.shift_day,
+                  start: row.shift_start_time,
+                  end: row.shift_end_time
+                });
+              });
+    
+              // Convert grouped object to array
+              const finalResult = Object.values(grouped);
+              resolve(finalResult);
+            }
+          });
+        });
+      },
+
+}
+
+module.exports = managerQueries;

@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const loginQueries = require("./api/loginpage");
+const managerQueries = require("./api/manager");
 const volunteerQueries = require("./api/volunteer");
 const victimQueries = require("./api/victim");
 const app = express();
@@ -32,6 +33,28 @@ app.post("/login", async (req, res) => {
 });
 
 /*-----------------------------------------------------
+                    MANAGER PAGE
+  ----------------------------------------------------*/
+  app.get("/manager/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const shifts = await volunteerQueries.getShifts(id);
+      const shelter = await volunteerQueries.getShelterInfo(id);
+      const skills = await volunteerQueries.getSkills(id);
+      const volunteerList = await managerQueries.getVolunteerList(id);
+      res.status(200).json({
+        shift: shifts,
+        shelter: shelter[0],
+        skills: skills,
+        volunteerList: volunteerList,
+      });
+    } catch (err) {
+      console.error("Error getting shifts:", err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
+/*-----------------------------------------------------
                     VOLUNTEER PAGE
   ----------------------------------------------------*/
 app.get("/volunteer/:id", async (req, res) => {
@@ -50,6 +73,7 @@ app.get("/volunteer/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 /*-----------------------------------------------------
                     VICTIM PAGE
