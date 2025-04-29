@@ -40,6 +40,22 @@ const victimQueries = {
       );
     });
   },
+  getServices: (victim_id) => {
+    return new Promise((resolve,reject) => {
+    db.query(
+      'SELECT service_type FROM SERVICE',
+      (err,results) => {
+        if (err) {
+          console.error("Failed to load service information:", err);
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      }
+
+    );
+    });
+  }
 };
 
 module.exports = victimQueries;

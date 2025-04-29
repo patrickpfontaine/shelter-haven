@@ -58,9 +58,11 @@ app.get("/victim/:id", async (req, res) => {
     console.log("SERVER.JS: user id", id);
     const profile = await victimQueries.getProfile(id);
     const shelter = await victimQueries.getShelterInfo(id);
+    const services = await victimQueries.getServices(id);
     res.status(200).json({
       profile: profile[0],
-      shelter: shelter[0]
+      shelter: shelter[0],
+      services: services,
       });
   } catch (err) {
     console.error("Victim route error:", err);

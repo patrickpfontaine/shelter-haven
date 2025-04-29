@@ -7,6 +7,9 @@ export default function VictimPage() {
   const { user } = useContext(UserContext);
   const [profile, setProfile] = useState(null);
   const [shelter, setShelter] = useState(null);
+  const [services, setServices] = useState(null);
+  const [selectedService, setSelectedService] = useState("");
+
 
   useEffect(() => {
     const getVictimInfo = async () => {
@@ -17,6 +20,7 @@ export default function VictimPage() {
         console.log("VICTIM PAYLOAD:", res.data);
         setProfile(res.data.profile)
         setShelter(res.data.shelter);
+        setServices(res.data.services);
       } catch (err) {
         console.error(err);
         console.log("error");
@@ -24,26 +28,47 @@ export default function VictimPage() {
     };
     getVictimInfo();
   }, [user]);
+
   return (
     <div className="victim-page">
-      <h1>Victim Page</h1>
-      {user ? (
-        <>
-          <p>
-            Welcome, {user.first_name} {user.last_name}!
-          </p>
-          <p>Your role is {user.role}.</p>
+       <div className="welcome">       
+        <h1>Victim Page</h1>
+        {user ? (
+          <>
+            <p>Welcome, {user.first_name} {user.last_name}!</p>
+            <p>Your role is {user.role}.</p>
         </>
-      ) : (
+        ) : (
         <p>Loading user info...</p>
       )}
+      </div>
+
+      <div classname ="profile-info">
       {profile ? (
         <>
-          <p>Your room # is {profile.room_num}.</p>
+          <p>You have been assigned room #{profile.room_num}.</p>
         </>
       ) : (
         <p>Loading user info...</p>
       )}
+      </div>
+
+      <div className = "service-info">
+      { services && services?.length > 0 ? (
+        <div className="service-list">
+          <h3>Services</h3>
+          <select value={selectedService} onChange={(e) => setSelectedService(e.target.value)}>
+            <option value="" disabled>Select a service</option>
+            {services.map((svc,) => (
+              <option key={svc.id}>{svc.service_type}</option>
+            ))}
+          </select>
+        </div>
+      ) : (
+        <p>Loading services…</p>
+      ) }
+      </div>
+
       <div className="shelter-info">
         {shelter ? (
           <>
