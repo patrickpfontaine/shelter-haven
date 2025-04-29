@@ -63,10 +63,14 @@ app.get("/volunteer/:id", async (req, res) => {
     const shifts = await volunteerQueries.getShifts(id);
     const shelter = await volunteerQueries.getShelterInfo(id);
     const skills = await volunteerQueries.getSkills(id);
+    const resources = await volunteerQueries.getReqResources(id);
+    const service = await volunteerQueries.getService(id);
     res.status(200).json({
       shift: shifts,
       shelter: shelter[0],
       skills: skills,
+      resources: resources,
+      service: service[0],
     });
   } catch (err) {
     console.error("Error getting shifts:", err);
@@ -81,7 +85,6 @@ app.get("/volunteer/:id", async (req, res) => {
 app.get("/victim/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    //console.log("SERVER.JS: user id", id);
     const profile = await victimQueries.getProfile(id);
     const shelter = await victimQueries.getShelterInfo(id);
     const services = await victimQueries.getServices(id);

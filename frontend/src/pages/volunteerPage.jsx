@@ -9,7 +9,8 @@ export default function VolunteerPage() {
   const [shift, setShift] = useState(null);
   const [shelter, setShelter] = useState(null);
   const [skills, setSkills] = useState(null);
-
+  const [resources, setResources] = useState(null);
+  const [service, setService] = useState(null);
   useEffect(() => {
     const getVolunteerInfo = async () => {
       const userid = user?.id;
@@ -20,6 +21,8 @@ export default function VolunteerPage() {
         setShift(res.data.shift);
         setShelter(res.data.shelter);
         setSkills(res.data.skills);
+        setResources(res.data.resources);
+        setService(res.data.service);
       } catch (err) {
         console.error(err);
       }
@@ -59,45 +62,78 @@ export default function VolunteerPage() {
         </div>
       </div>
       <hr />
-      <div className="skills">
-        <h3>Skills:</h3>
-        {skills && skills.length > 0 ? (
-          <p>
-            {skills.map((s, index) => (
-              <tr key={index}>
-                <td>{s.skill},</td>
-              </tr>
-            ))}
-          </p>
-        ) : (
-          <p>No skills found.</p>
-        )}
-      </div>
-      <div className="shift-info">
-        <h3>Shifts</h3>
-        {shift && shift.length > 0 ? (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Day</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody>
-              {shift.map((s, index) => (
-                <tr key={index}>
-                  <td>{s.shift_day}</td>
-                  <td>
-                    {s.shift_start_time.slice(0, 5)} -{" "}
-                    {s.shift_end_time.slice(0, 5)}
-                  </td>
+      <div className="body">
+        <div className="skill-service">
+          <div>
+            <h3>Skills:</h3>
+            {skills && skills.length > 0 ? (
+              <p>
+                {skills.map((s, index) => (
+                  <tr key={index}>
+                    <td>{s.skill},</td>
+                  </tr>
+                ))}
+              </p>
+            ) : (
+              <p>No skills found.</p>
+            )}
+          </div>
+          <div>
+            <h3>Assigned service:</h3>
+            {service ? <p>{service.service_type}</p> : <p>No service found.</p>}
+          </div>
+        </div>
+        <div className="shift-info">
+          <h3>Shifts</h3>
+          {shift && shift.length > 0 ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Time</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No shifts found.</p>
-        )}
+              </thead>
+              <tbody>
+                {shift.map((s, index) => (
+                  <tr key={index}>
+                    <td>{s.shift_day}</td>
+                    <td>
+                      {s.shift_start_time.slice(0, 5)} -{" "}
+                      {s.shift_end_time.slice(0, 5)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No shifts found.</p>
+          )}
+        </div>
+        <div className="resource-info">
+          <h3>Resources</h3>
+          {resources && resources.length > 0 ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Resource</th>
+                  <th>Quantity in Stock</th>
+                  <th>Required Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {resources.map((r, index) => (
+                  <tr key={index}>
+                    <td>{r.resource_name}</td>
+                    <td>{r.resource_quantity}</td>
+                    <td>{r.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No resources found.</p>
+          )}
+        </div>
       </div>
     </div>
   );
