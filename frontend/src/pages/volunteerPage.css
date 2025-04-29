@@ -33,6 +33,14 @@
 hr {
   width: 95%;
 }
+
+.skills {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 10px;
+  padding-left: 20px;
+}
 /*-------- Shift Table Styling --------*/
 .shift-info {
   text-align: left;

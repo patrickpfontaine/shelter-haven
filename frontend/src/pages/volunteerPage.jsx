@@ -8,6 +8,7 @@ export default function VolunteerPage() {
   const { user } = useContext(UserContext);
   const [shift, setShift] = useState(null);
   const [shelter, setShelter] = useState(null);
+  const [skills, setSkills] = useState(null);
 
   useEffect(() => {
     const getVolunteerInfo = async () => {
@@ -18,6 +19,7 @@ export default function VolunteerPage() {
         );
         setShift(res.data.shift);
         setShelter(res.data.shelter);
+        setSkills(res.data.skills);
       } catch (err) {
         console.error(err);
       }
@@ -57,6 +59,20 @@ export default function VolunteerPage() {
         </div>
       </div>
       <hr />
+      <div className="skills">
+        <h3>Skills:</h3>
+        {skills && skills.length > 0 ? (
+          <p>
+            {skills.map((s, index) => (
+              <tr key={index}>
+                <td>{s.skill},</td>
+              </tr>
+            ))}
+          </p>
+        ) : (
+          <p>No skills found.</p>
+        )}
+      </div>
       <div className="shift-info">
         <h3>Shifts</h3>
         {shift && shift.length > 0 ? (

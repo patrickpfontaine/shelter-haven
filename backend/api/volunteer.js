@@ -42,6 +42,23 @@ const volunteerQueries = {
       );
     });
   },
+  getSkills: (volunteer_id) => {
+    return new Promise((resolve, reject) => {
+      db.query(
+        `SELECT skill FROM SKILLS 
+        WHERE volunteer_id = ?`,
+        [volunteer_id],
+        (err, results) => {
+          if (err) {
+            console.error("Failed to load skills:", err);
+            reject(err);
+          } else {
+            resolve(results);
+          }
+        }
+      );
+    });
+  },
 };
 
 module.exports = volunteerQueries;
