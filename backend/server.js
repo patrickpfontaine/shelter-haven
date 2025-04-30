@@ -41,12 +41,17 @@ app.post("/login", async (req, res) => {
       const shifts = await volunteerQueries.getShifts(id);
       const shelter = await volunteerQueries.getShelterInfo(id);
       const skills = await volunteerQueries.getSkills(id);
+      const resources = await volunteerQueries.getReqResources(id);
       const volunteerList = await managerQueries.getVolunteerList(id);
+      const victimList = await managerQueries.getVictimList(id);
       res.status(200).json({
         shift: shifts,
         shelter: shelter[0],
         skills: skills,
+        resources: resources,
         volunteerList: volunteerList,
+        victimList: victimList,
+        
       });
     } catch (err) {
       console.error("Error getting shifts:", err);
