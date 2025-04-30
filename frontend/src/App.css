@@ -5,8 +5,8 @@ body {
   margin: 10px;
 }
 #root {
-  min-height: 95vh;
-  min-width: 95vw;
+  min-height: 98vh;
+  min-width: 98vw;
 }
 
 .login-container {

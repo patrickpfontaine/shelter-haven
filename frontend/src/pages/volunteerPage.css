@@ -35,13 +35,14 @@
 hr {
   width: 100%;
 }
-
+/*-------- Main Content Styling --------*/
 .body {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
 
+/*-------- Skills & Service Styling --------*/
 .skill-service {
   display: flex;
   flex-direction: column;
@@ -65,6 +66,7 @@ hr {
   display: flex;
   flex-wrap: wrap;
 }
+
 /*-------- Shift Table Styling --------*/
 .shift-info {
   flex-direction: column;
@@ -77,16 +79,8 @@ hr {
   text-align: center;
   margin-bottom: 10px;
 }
-.table {
-  border-collapse: collapse;
-}
-.table th,
-.table td {
-  border: 1px solid #ddd;
-  padding: 8px 15px;
-  text-align: center;
-}
 
+/*-------- Resource Table Styling --------*/
 .resource-info {
   flex: 2;
   justify-items: center;
@@ -96,4 +90,15 @@ hr {
   text-align: center;
   margin-top: 0px;
   margin-bottom: 10px;
+}
+
+/*-------- General Table Styling --------*/
+.table {
+  border-collapse: collapse;
+}
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px 15px;
+  text-align: center;
 }
