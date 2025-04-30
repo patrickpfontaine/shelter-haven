@@ -65,11 +65,11 @@ export default function VolunteerPage() {
       <div className="body">
         <div className="skill-service">
           <div>
-            <h3>Skills:</h3>
+            <h4>Skills:</h4>
             {skills && skills.length > 0 ? (
               <p>
                 {skills.map((s, index) => (
-                  <tr key={index}>
+                  <tr className="skill" key={index}>
                     <td>{s.skill},</td>
                   </tr>
                 ))}
@@ -79,35 +79,35 @@ export default function VolunteerPage() {
             )}
           </div>
           <div>
-            <h3>Assigned service:</h3>
+            <h4>Assigned service:</h4>
             {service ? <p>{service.service_type}</p> : <p>No service found.</p>}
           </div>
-        </div>
-        <div className="shift-info">
-          <h3>Shifts</h3>
-          {shift && shift.length > 0 ? (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Day</th>
-                  <th>Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                {shift.map((s, index) => (
-                  <tr key={index}>
-                    <td>{s.shift_day}</td>
-                    <td>
-                      {s.shift_start_time.slice(0, 5)} -{" "}
-                      {s.shift_end_time.slice(0, 5)}
-                    </td>
+          <div className="shift-info">
+            <h3>Shifts</h3>
+            {shift && shift.length > 0 ? (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Time</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <p>No shifts found.</p>
-          )}
+                </thead>
+                <tbody>
+                  {shift.map((s, index) => (
+                    <tr key={index}>
+                      <td>{s.shift_day}</td>
+                      <td>
+                        {s.shift_start_time.slice(0, 5)} -{" "}
+                        {s.shift_end_time.slice(0, 5)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p>No shifts found.</p>
+            )}
+          </div>
         </div>
         <div className="resource-info">
           <h3>Resources</h3>

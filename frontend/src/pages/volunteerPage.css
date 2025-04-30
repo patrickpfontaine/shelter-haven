@@ -18,11 +18,13 @@
   font-size: 24px;
   font-weight: bold;
   margin: 0;
+  margin-left: 10px;
 }
 .shelter-info {
   display: flex;
   flex-direction: column;
   flex: 2;
+  align-items: center;
 }
 .shelter-info h3,
 .shelter-info p {
@@ -31,12 +33,13 @@
 }
 
 hr {
-  width: 95%;
+  width: 100%;
 }
 
 .body {
   display: flex;
   flex-direction: row;
+  width: 100%;
 }
 
 .skill-service {
@@ -44,42 +47,53 @@ hr {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  gap: 3px;
+  flex: 2;
+  padding-left: 10px;
 }
 .skill-service div {
   display: flex;
   align-items: center;
-  justify-content: center;
-  column-gap: 10px;
-  padding-left: 20px;
 }
-.skill-service h3 {
-  flex: 2;
+.skill-service h4 {
   line-height: 0.5;
 }
 .skill-service p {
-  flex: 1;
   margin: 5px;
   padding: 3px;
 }
+.skill {
+  display: flex;
+  flex-wrap: wrap;
+}
 /*-------- Shift Table Styling --------*/
 .shift-info {
+  flex-direction: column;
   text-align: left;
-  margin-top: 20px;
-  padding-left: 20px;
   align-self: flex-start;
+  margin: 5px;
 }
 .shift-info h3 {
+  margin-top: 0px;
   text-align: center;
   margin-bottom: 10px;
 }
 .table {
   border-collapse: collapse;
-  margin-top: 10px;
 }
 .table th,
 .table td {
   border: 1px solid #ddd;
   padding: 8px 15px;
   text-align: center;
+}
+
+.resource-info {
+  flex: 2;
+  justify-items: center;
+  margin: 5px;
+}
+.resource-info h3 {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 10px;
 }

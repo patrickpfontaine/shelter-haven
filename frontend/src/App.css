@@ -1,12 +1,18 @@
+body {
+  overflow: hidden;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 10px;
+}
 #root {
-  min-height: 100vh;
-  min-width: 100vw;
-  text-align: center;
+  min-height: 95vh;
+  min-width: 95vw;
 }
 
 .login-container {
   justify-content: center;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 75vh;
+  align-items: center;
 }
