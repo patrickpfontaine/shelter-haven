@@ -49,8 +49,26 @@ const managerQueries = {
             }
           });
         });
-      },
+    },
 
+    getVictimList: (manager_id) => {
+        return new Promise((resolve, reject) => {
+          const query = `
+            SELECT v.victim_id, v.victim_fname, v.victim_lname, v.room_num
+            FROM VICTIM v
+            JOIN SHELTER s ON v.shelter_id = s.shelter_id
+            WHERE s.manager_id = ?
+          `;
+          db.query(query, [manager_id], (err, results) => {
+            if (err) {
+              console.error("Error fetching victims for manager:", err);
+              reject(err);
+            } else {
+              resolve(results);
+            }
+          });
+        });
+      },  
 }
 
 module.exports = managerQueries;

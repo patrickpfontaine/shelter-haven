@@ -9,7 +9,9 @@ export default function ManagerPage() {
   const [shift, setShift] = useState(null);
   const [shelter, setShelter] = useState(null);
   const [skills, setSkills] = useState(null);
+  const [resources, setResources] = useState(null);
   const [volunteers, setVolunteers] = useState([]);
+  const [victims, setVictims] = useState([]);
 
   useEffect(() => {
     const getManagerInfo = async () => {
@@ -21,7 +23,9 @@ export default function ManagerPage() {
         setShift(res.data.shift);
         setShelter(res.data.shelter);
         setSkills(res.data.skills);
-        setVolunteers(res.data.volunteerList)
+        setResources(res.data.resources);
+        setVolunteers(res.data.volunteerList);
+        setVictims(res.data.victimList);
       } catch (err) {
         console.error(err);
       }
@@ -60,6 +64,7 @@ export default function ManagerPage() {
           )}
         </div>
       </div>
+
       <hr />
       <div className="skills">
         <h3>Skills:</h3>
@@ -75,6 +80,7 @@ export default function ManagerPage() {
           <p>No skills found.</p>
         )}
       </div>
+
       <div className="shift-info">
         <h3>Shifts</h3>
         {shift && shift.length > 0 ? (
@@ -101,9 +107,35 @@ export default function ManagerPage() {
           <p>No shifts found.</p>
         )}
       </div>
+
+      <div className="resource-info">
+          <h3>Resources</h3>
+          {resources && resources.length > 0 ? (
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Resource</th>
+                  <th>Quantity in Stock</th>
+                  <th>Required Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {resources.map((r, index) => (
+                  <tr key={index}>
+                    <td>{r.resource_name}</td>
+                    <td>{r.resource_quantity}</td>
+                    <td>{r.quantity}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No resources found.</p>
+          )}
+        </div>
       
       <div className="volunteer-list">
-        <h3>All Volunteers and Their Shifts</h3>
+        <h3>Volunteers and Their Shifts</h3>
         {volunteers.length > 0 ? (
           volunteers.map((v, index) => (
             <div key={index} className="volunteer-section">
@@ -130,6 +162,22 @@ export default function ManagerPage() {
           <p>No volunteer shifts found.</p>
         )}
       </div>
+
+      <div className="victim-list">
+        <h2>Registered Victims</h2>
+        {victims.length > 0 ? (
+          <ul>
+            {victims.map((v) => (
+              <li key={v.victim_id}>
+                 {v.victim_fname} {v.victim_lname} — Room #{v.room_num}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No victims found.</p>
+        )}
+      </div>
+
 
 
     </div>
