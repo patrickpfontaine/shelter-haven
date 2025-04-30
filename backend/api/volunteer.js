@@ -105,6 +105,32 @@ const volunteerQueries = {
       );
     });
   },
+  getRequests: (volunteer_id) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT r.service_type, vm.victim_fname, vm.victim_lname, vm.room_num
+        FROM VOLUNTEER vr
+        JOIN REQUESTS r ON r.service_type = vr.service_type
+        JOIN VICTIM vm ON vm.victim_id = r.victim_id
+        WHERE vr.volunteer_id = ? AND r.shelter_id = vr.shelter_id
+      `;
+      db.query(query, [volunteer_id], (err, results) => {
+        if (err) {
+          console.error("Failed to load requests:", err);
+          reject(err);
+        } else {
+          resolve(results);
+        }
+      });
+    });
+  },
+  completeRequest: async (service_type, shelter_id) => {
+    const query = `
+      FIURE THIS OUT
+    `;
+    const [result] = await db.promise().execute(query, [service_type, shelter_id]);
+    return result;
+  }
 };
 
 module.exports = volunteerQueries;

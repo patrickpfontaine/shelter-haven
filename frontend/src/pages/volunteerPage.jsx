@@ -11,6 +11,7 @@ export default function VolunteerPage() {
   const [skills, setSkills] = useState(null);
   const [resources, setResources] = useState(null);
   const [service, setService] = useState(null);
+  const [requests, setRequests] = useState([]);
   useEffect(() => {
     const getVolunteerInfo = async () => {
       const userid = user?.id;
@@ -23,12 +24,26 @@ export default function VolunteerPage() {
         setSkills(res.data.skills);
         setResources(res.data.resources);
         setService(res.data.service);
+        setRequests(res.data.requests)
       } catch (err) {
         console.error(err);
       }
     };
     getVolunteerInfo();
   }, [user]);
+
+  const handleComplete = async (request) => {
+    try {
+      const res = await axios.post("http://localhost:8081/request/complete", {
+        service_type: request.service_type,
+        shelter_id: shelter.shelter_id, 
+      });
+      console.log("Request completed:", res.data);
+      // delete the request
+    } catch (err) {
+      console.error("Error completing request:", err);
+    }
+  };
 
   return (
     <div className="volunteer-page">
@@ -109,6 +124,37 @@ export default function VolunteerPage() {
             )}
           </div>
         </div>
+        
+        <div className="request-section">
+          <h2>Service Requests in Your Shelter</h2>
+          {requests && requests.length > 0 ? (
+            <table className="table">
+            <thead>
+              <tr>
+                <th>Service Type</th>
+                <th>Victim Name</th>
+                <th>Room Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              {requests.map((r, index) => (
+                <tr key={index}>
+                  <td>{r.service_type}</td>
+                  <td>{r.victim_fname} {r.victim_lname}</td>
+                  <td>{r.room_num}</td>
+                  <td>
+  <button onClick={() => handleComplete(r)}>Complete</button>
+</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No requests found.</p>
+        )}
+        </div>
+        
+
         <div className="resource-info">
           <h3>Resources</h3>
           {resources && resources.length > 0 ? (
