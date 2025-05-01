@@ -1,30 +1,106 @@
-/* .body {
-    flex-direction: row;
-    align-items: flex-start;
-} */
+.volunteer-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  place-items: flex-start;
+  justify-content: center;
+}
+.volunteer-section {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 
 .body {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 2rem;
-    padding: 1rem;
-  }
-
-
-.skills {
-    display: flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  padding: 1rem;
+  padding-top: 0;
+  gap: 4rem;
 }
-  
+.last-column {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.shelter-info {
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.skills {
+  display: flex;
+}
 
 .skills-label {
-    font-weight: bold;
+  font-weight: bold;
 }
-  
+
 .skill {
-    word-spacing: 10px;
+  word-spacing: 10px;
 }
-  
 .full-row {
-    width: 100%;
+  flex-direction: column;
+  text-align: left;
+  align-self: flex-start;
+  margin: 0px;
+  margin-bottom: 5px;
+}
+.full-row h3 {
+  justify-self: center;
+  padding-bottom: 0;
+}
+.full-row h4 {
+  margin-bottom: 0;
+}
+.resource-info {
+  flex-direction: column;
+  text-align: left;
+  align-self: flex-start;
+  margin: 0px;
+}
+.victim-list {
+  margin: 5px;
+}
+.victim-list h3 {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.request-section {
+  align-self: flex-start;
+  justify-self: center;
+}
+.row-one {
+  align-self: flex-start;
+}
+.skills {
+  padding-left: 10px;
+  padding-top: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+/*-------- General Table Styling --------*/
+.table {
+  border-collapse: collapse;
+  min-width: 250px;
+}
+.table th,
+.table td {
+  border: 1px solid #000000;
+  padding: 8px 15px;
+  text-align: center;
+}
+/*-------- Shift Table Styling --------*/
+.shift-info {
+  flex-direction: column;
+  text-align: left;
+  align-self: flex-start;
+  margin: 0px;
+}
+.shift-info h3 {
+  justify-self: center;
+  padding-bottom: 0;
 }

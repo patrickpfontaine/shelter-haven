@@ -8,10 +8,6 @@
 /*-------- Header Bar Styling --------*/
 .top-bar {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 15px 15px 4px 15px;
 }
 .welcome {
   flex: 1;
@@ -23,8 +19,7 @@
 .shelter-info {
   display: flex;
   flex-direction: column;
-  flex: 2;
-  align-items: center;
+  place-items: center;
 }
 .shelter-info h3,
 .shelter-info p {
@@ -83,7 +78,6 @@ hr {
 /*-------- Resource Table Styling --------*/
 .resource-info {
   flex: 2;
-  justify-items: center;
   margin: 5px;
 }
 .resource-info h3 {
@@ -95,10 +89,11 @@ hr {
 /*-------- General Table Styling --------*/
 .table {
   border-collapse: collapse;
+  min-width: 250px;
 }
 .table th,
 .table td {
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   padding: 8px 15px;
   text-align: center;
 }

@@ -24,7 +24,7 @@ export default function VolunteerPage() {
         setSkills(res.data.skills);
         setResources(res.data.resources);
         setService(res.data.service);
-        setRequests(res.data.requests)
+        setRequests(res.data.requests);
       } catch (err) {
         console.error(err);
       }
@@ -39,8 +39,8 @@ export default function VolunteerPage() {
       // console.log("victimID",request.victim_id)
       const res = await axios.post("http://localhost:8081/request/complete", {
         service_type: request.service_type,
-        shelter_id: shelter.shelter_id, 
-        victim_id: request.victim_id
+        shelter_id: shelter.shelter_id,
+        victim_id: request.victim_id,
       });
       console.log("Request completed:", res.data);
       // delete the request
@@ -102,7 +102,10 @@ export default function VolunteerPage() {
             {service ? <p>{service.service_type}</p> : <p>No service found.</p>}
           </div>
           <div className="shift-info">
-            <h3>Shifts</h3>
+            <div style={{ background: "lightgray" }}>
+              {" "}
+              <h3>Your Shifts</h3>
+            </div>
             {shift && shift.length > 0 ? (
               <table className="table">
                 <thead>
@@ -128,36 +131,39 @@ export default function VolunteerPage() {
             )}
           </div>
         </div>
-        
+
         <div className="request-section">
           <h2>Service Requests in Your Shelter</h2>
           {requests && requests.length > 0 ? (
             <table className="table">
-            <thead>
-              <tr>
-                <th>Service Type</th>
-                <th>Victim Name</th>
-                <th>Room Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((r, index) => (
-                <tr key={index}>
-                  <td>{r.service_type}</td>
-                  <td>{r.victim_fname} {r.victim_lname}</td>
-                  <td>{r.room_num}</td>
-                  <td>
-                  <button onClick={() => handleComplete(r)}>Complete</button>
-                  </td>
+              <thead>
+                <tr>
+                  <th>Service Type</th>
+                  <th>Victim Name</th>
+                  <th>Room Number</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p>No requests found.</p>
-        )}
+              </thead>
+              <tbody>
+                {requests.map((r, index) => (
+                  <tr key={index}>
+                    <td>{r.service_type}</td>
+                    <td>
+                      {r.victim_fname} {r.victim_lname}
+                    </td>
+                    <td>{r.room_num}</td>
+                    <td>
+                      <button onClick={() => handleComplete(r)}>
+                        Complete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : (
+            <p>No requests found.</p>
+          )}
         </div>
-        
 
         <div className="resource-info">
           <h3>Resources</h3>

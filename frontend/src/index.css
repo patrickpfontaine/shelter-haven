@@ -4,7 +4,7 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(13, 13, 13, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
@@ -34,6 +34,18 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
+label {
+  color: black;
+}
+input {
+  background-color: rgb(193, 193, 193);
+  color: black;
+}
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  min-width: 250px;
+}
 
 button {
   border-radius: 8px;
@@ -42,12 +54,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #0d2c4c;
+  border-color: #0d2c4c;
   cursor: pointer;
-  transition: border-color 0.25s;
+  transition: background-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  background-color: #05121f;
 }
 button:focus,
 button:focus-visible {
