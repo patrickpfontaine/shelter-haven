@@ -41,8 +41,8 @@ app.get("/manager/:id", async (req, res) => {
     const shifts = await volunteerQueries.getShifts(id);
     const shelter = await volunteerQueries.getShelterInfo(id);
     const skills = await volunteerQueries.getSkills(id);
-    const resources = await managerQueries.getAllResources(id);
-    console.log(resources);
+    const allResources = await managerQueries.getAllResources(id);
+    console.log("All resources returned for manager:", allResources);
     const volunteerList = await managerQueries.getVolunteerList(id);
     const victimList = await managerQueries.getVictimList(id);
     const allRequests = await managerQueries.getAllRequests(id);
@@ -50,7 +50,7 @@ app.get("/manager/:id", async (req, res) => {
       shift: shifts,
       shelter: shelter[0],
       skills: skills,
-      resources: resources,
+      allResources: allResources,
       volunteerList: volunteerList,
       victimList: victimList,
       allRequests: allRequests,

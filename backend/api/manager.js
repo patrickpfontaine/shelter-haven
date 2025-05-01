@@ -90,13 +90,10 @@ const managerQueries = {
   getAllResources: (manager_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `SELECT r.resource_name, r.resource_quantity FROM RESOURCES r
-          JOIN SHELTER sh ON sh.shelter_id = r.shelter_id
-          AND sh.shelter_id =
-          (
-              SELECT shelter_id FROM VOLUNTEER vr
-              WHERE vr.volunteer_id = ?
-          )`,
+        `SELECT r.resource_name, r.resource_quantity 
+      FROM RESOURCES r
+      JOIN SHELTER sh ON sh.shelter_id = r.shelter_id
+      WHERE sh.manager_id = ?;`,
         [manager_id],
         (err, results) => {
           if (err) {

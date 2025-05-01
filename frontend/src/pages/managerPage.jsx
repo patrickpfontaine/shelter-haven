@@ -10,7 +10,7 @@ export default function ManagerPage() {
   const [shift, setShift] = useState(null);
   const [shelter, setShelter] = useState(null);
   const [skills, setSkills] = useState(null);
-  const [resources, setResources] = useState(null);
+  const [allResources, setAllResources] = useState(null);
   const [volunteers, setVolunteers] = useState([]);
   const [victims, setVictims] = useState([]);
   const [allRequests, setallRequests] = useState([]);
@@ -26,7 +26,7 @@ export default function ManagerPage() {
         setShift(res.data.shift);
         setShelter(res.data.shelter);
         setSkills(res.data.skills);
-        setResources(res.data.resources);
+        setAllResources(res.data.allResources);
         setVolunteers(res.data.volunteerList);
         setVictims(res.data.victimList);
         setallRequests(res.data.allRequests);
@@ -37,7 +37,9 @@ export default function ManagerPage() {
     getManagerInfo();
   }, [user]);
 
-  console.log("vic type:", allRequests);
+  console.log("user:", user.id);
+
+  console.log("all resources:", allResources);
 
   const handleComplete = async (request) => {
     try {
@@ -227,7 +229,7 @@ export default function ManagerPage() {
             <div style={{ background: "lightgray" }}>
               <h3>Resources</h3>
             </div>
-            {resources && resources.length > 0 ? (
+            {allResources && allResources.length > 0 ? (
               <table className="table">
                 <thead>
                   <tr>
@@ -236,7 +238,7 @@ export default function ManagerPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {resources.map((r, index) => (
+                  {allResources.map((r, index) => (
                     <tr key={index}>
                       <td>{r.resource_name}</td>
                       <td>{r.resource_quantity}</td>
