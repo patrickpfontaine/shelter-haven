@@ -24,7 +24,7 @@ const volunteerQueries = {
   getShelterInfo: (volunteer_id) => {
     return new Promise((resolve, reject) => {
       db.query(
-        `SELECT sh.shelter_name, sh.addr_street, sh.addr_city, sh.addr_state, sh.phone FROM SHELTER sh
+        `SELECT sh.shelter_id, sh.shelter_name, sh.addr_street, sh.addr_city, sh.addr_state, sh.phone FROM SHELTER sh
         WHERE sh.shelter_id = 
         (
             SELECT shelter_id FROM VOLUNTEER vr
@@ -107,13 +107,11 @@ const volunteerQueries = {
   },
   getRequests: (volunteer_id) => {
     return new Promise((resolve, reject) => {
-      const query = `
-        SELECT r.service_type, vm.victim_fname, vm.victim_lname, vm.room_num
-        FROM VOLUNTEER vr
-        JOIN REQUESTS r ON r.service_type = vr.service_type
-        JOIN VICTIM vm ON vm.victim_id = r.victim_id
-        WHERE vr.volunteer_id = ? AND r.shelter_id = vr.shelter_id
-      `;
+      const query = `SELECT r.service_type, r.victim_id, vm.victim_fname, vm.victim_lname, vm.room_num 
+                      FROM VOLUNTEER vr 
+                      JOIN REQUESTS r ON r.service_type = vr.service_type 
+                      JOIN VICTIM vm ON vm.victim_id = r.victim_id 
+                      WHERE vr.volunteer_id = ? AND r.shelter_id = vr.shelter_id`;
       db.query(query, [volunteer_id], (err, results) => {
         if (err) {
           console.error("Failed to load requests:", err);
@@ -124,13 +122,40 @@ const volunteerQueries = {
       });
     });
   },
-  completeRequest: async (service_type, shelter_id) => {
-    const query = `
-      FIURE THIS OUT
-    `;
-    const [result] = await db.promise().execute(query, [service_type, shelter_id]);
-    return result;
-  }
+  completeRequest: (service_type, shelter_id, victim_id) => {
+    return new Promise((resolve, reject) => {
+      // Step 1: Reduce resources
+      const updateQuery = `
+        UPDATE RESOURCES r
+        JOIN REQUIRES rq ON r.resource_id = rq.resource_id
+        SET r.resource_quantity = r.resource_quantity - rq.quantity
+        WHERE rq.service_type = ? AND r.shelter_id = ?;
+      `;
+
+      db.query(updateQuery, [service_type, shelter_id], (err) => {
+        if (err) {
+          console.error("Error updating resources:", err);
+          return reject(err);
+        }
+
+        // Step 2: Delete the request
+        const deleteQuery = `
+          DELETE FROM REQUESTS
+          WHERE service_type = ? AND shelter_id = ? AND victim_id = ?;
+        `;
+        console.log("Attempting to delete request:", service_type, shelter_id, victim_id);
+        db.query(deleteQuery, [service_type, shelter_id, victim_id], (err) => {
+          if (err) {
+            console.error("Error deleting request:", err);
+            return reject(err);
+          }
+
+          resolve({ message: "Request completed and resources updated." });
+        });
+      });
+    });
+  },
+  
 };
 
 module.exports = volunteerQueries;

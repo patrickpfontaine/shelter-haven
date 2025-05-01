@@ -34,9 +34,13 @@ export default function VolunteerPage() {
 
   const handleComplete = async (request) => {
     try {
+      // console.log("ServiceType",request.service_type)
+      // console.log("shelterID",shelter.shelter_id)
+      // console.log("victimID",request.victim_id)
       const res = await axios.post("http://localhost:8081/request/complete", {
         service_type: request.service_type,
         shelter_id: shelter.shelter_id, 
+        victim_id: request.victim_id
       });
       console.log("Request completed:", res.data);
       // delete the request
@@ -143,8 +147,8 @@ export default function VolunteerPage() {
                   <td>{r.victim_fname} {r.victim_lname}</td>
                   <td>{r.room_num}</td>
                   <td>
-  <button onClick={() => handleComplete(r)}>Complete</button>
-</td>
+                  <button onClick={() => handleComplete(r)}>Complete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>

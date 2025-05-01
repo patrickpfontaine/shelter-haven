@@ -44,6 +44,7 @@ app.post("/login", async (req, res) => {
       const resources = await volunteerQueries.getReqResources(id);
       const volunteerList = await managerQueries.getVolunteerList(id);
       const victimList = await managerQueries.getVictimList(id);
+      const allRequests = await managerQueries.getAllRequests(id);
       res.status(200).json({
         shift: shifts,
         shelter: shelter[0],
@@ -51,6 +52,7 @@ app.post("/login", async (req, res) => {
         resources: resources,
         volunteerList: volunteerList,
         victimList: victimList,
+        allRequests: allRequests,
         
       });
     } catch (err) {
@@ -87,8 +89,8 @@ app.get("/volunteer/:id", async (req, res) => {
 
 app.post("/request/complete", async (req, res) => {
   try {
-    const { service_type, shelter_id } = req.body;
-    await victimQueries.completeRequest(service_type, shelter_id);
+    const { service_type, shelter_id, victim_id } = req.body;
+    await volunteerQueries.completeRequest(service_type, shelter_id, victim_id);
     res.status(200).json({ message: "Request completed" });
   } catch (err) {
     console.error("Error completing request:", err);

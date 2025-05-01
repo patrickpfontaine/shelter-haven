@@ -1,0 +1,30 @@
+/* .body {
+    flex-direction: row;
+    align-items: flex-start;
+} */
+
+.body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 2rem;
+    padding: 1rem;
+  }
+
+
+.skills {
+    display: flex;
+}
+  
+
+.skills-label {
+    font-weight: bold;
+}
+  
+.skill {
+    word-spacing: 10px;
+}
+  
+.full-row {
+    width: 100%;
+}

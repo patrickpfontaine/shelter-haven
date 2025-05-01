@@ -2,6 +2,7 @@ import React from "react";
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import axios from "axios";
+import "./managerPage.css"; 
 
 
 export default function ManagerPage() {
@@ -12,6 +13,7 @@ export default function ManagerPage() {
   const [resources, setResources] = useState(null);
   const [volunteers, setVolunteers] = useState([]);
   const [victims, setVictims] = useState([]);
+  const [allRequests, setallRequests] = useState([]);
 
   useEffect(() => {
     const getManagerInfo = async () => {
@@ -26,12 +28,33 @@ export default function ManagerPage() {
         setResources(res.data.resources);
         setVolunteers(res.data.volunteerList);
         setVictims(res.data.victimList);
+        setallRequests(res.data.allRequests);
       } catch (err) {
         console.error(err);
       }
     };
     getManagerInfo();
   }, [user]);
+
+  console.log("vic type:", allRequests)
+
+  const handleComplete = async (request) => {
+    try {
+      console.log("ServiceType",request.service_type)
+      // console.log("shelterID",shelter.shelter_id)
+      // console.log("victimID",request.victim_id)
+      const res = await axios.post("http://localhost:8081/request/complete", {
+        service_type: request.service_type,
+        shelter_id: shelter.shelter_id, 
+        victim_id: request.victim_id
+      });
+      console.log("Request completed:", res.data);
+      // delete the request
+    } catch (err) {
+      console.error("Error completing request:", err);
+    }
+  };
+
 
   return (
     <div className="volunteer-page">
@@ -66,18 +89,21 @@ export default function ManagerPage() {
       </div>
 
       <hr />
+      
+      <div className="body">
+
       <div className="skills">
-        <h3>Skills:</h3>
+        <span className="skills-label">Skills:</span>
         {skills && skills.length > 0 ? (
-          <p>
+          <div className="skill-list">
             {skills.map((s, index) => (
-              <tr key={index}>
-                <td>{s.skill},</td>
-              </tr>
+              <span className="skill" key={index}>
+                {s.skill}
+              </span>
             ))}
-          </p>
+          </div>
         ) : (
-          <p>No skills found.</p>
+          <span>No skills found.</span>
         )}
       </div>
 
@@ -134,7 +160,52 @@ export default function ManagerPage() {
           )}
         </div>
       
-      <div className="volunteer-list">
+      
+      <div className="victim-list">
+        <h2>Registered Victims</h2>
+        {victims.length > 0 ? (
+          <ul>
+            {victims.map((v) => (
+              <li key={v.victim_id}>
+                 {v.victim_fname} {v.victim_lname} — Room #{v.room_num}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No victims found.</p>
+        )}
+      </div>
+
+      <div className="request-section">
+          <h2>All Service Requests in Your Shelter</h2>
+          {allRequests && allRequests.length > 0 ? (
+            <table className="table">
+            <thead>
+              <tr>
+                <th>Service Type</th>
+                <th>Victim Name</th>
+                <th>Room Number</th>
+              </tr>
+            </thead>
+            <tbody>
+              {allRequests.map((r, index) => (
+                <tr key={index}>
+                  <td>{r.service_type}</td>
+                  <td>{r.victim_fname} {r.victim_lname}</td>
+                  <td>{r.room_num}</td>
+                  <td>
+                  <button onClick={() => handleComplete(r)}>Complete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No requests found.</p>
+        )}
+        </div>
+
+        <div className="volunteer-list full-row">
         <h3>Volunteers and Their Shifts</h3>
         {volunteers.length > 0 ? (
           volunteers.map((v, index) => (
@@ -163,22 +234,8 @@ export default function ManagerPage() {
         )}
       </div>
 
-      <div className="victim-list">
-        <h2>Registered Victims</h2>
-        {victims.length > 0 ? (
-          <ul>
-            {victims.map((v) => (
-              <li key={v.victim_id}>
-                 {v.victim_fname} {v.victim_lname} — Room #{v.room_num}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p>No victims found.</p>
-        )}
-      </div>
 
-
+      </div>  
 
     </div>
   );

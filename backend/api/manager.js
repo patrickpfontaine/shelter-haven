@@ -49,7 +49,7 @@ const managerQueries = {
             }
           });
         });
-    },
+      },
 
     getVictimList: (manager_id) => {
         return new Promise((resolve, reject) => {
@@ -68,7 +68,25 @@ const managerQueries = {
             }
           });
         });
-      },  
+      },
+    getAllRequests: (manager_id) => {
+      return new Promise ((resolve, reject) => {
+        const query = `SELECT r.service_type, r.victim_id, vm.victim_fname, vm.victim_lname, vm.room_num 
+                        FROM REQUESTS r 
+                        JOIN VICTIM vm ON vm.victim_id = r.victim_id 
+                        JOIN SHELTER s ON s.shelter_id = r.shelter_id 
+                        WHERE s.manager_id = ?;
+                      `;
+        db.query(query, [manager_id], (err, results) => {
+          if (err) {
+            console.error("Error fetching requests for manager:", err);
+            reject(err);
+          } else {
+            resolve(results);
+          }
+        });
+      });
+    },
 }
 
 module.exports = managerQueries;
