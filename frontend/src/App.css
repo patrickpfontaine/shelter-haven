@@ -1,13 +1,14 @@
-body {
-  overflow: hidden;
+ body {
+  overflow-x: hidden;
   justify-content: center;
   align-items: flex-start;
-  margin: 10px;
-}
-#root {
+  background-color: #d6eaf8;
+} 
+
+ #root {
   min-height: 98vh;
   min-width: 98vw;
-}
+}  
 
 .login-container {
   justify-content: center;
@@ -20,4 +21,17 @@ body {
 .login-container button {
   display: flex;
   justify-self: center;
+}
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  padding: 1rem;
+  font-weight: bold;
+  margin-bottom: 5rem;
+  font-size: 3rem;
 }
