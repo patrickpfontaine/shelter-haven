@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import axios from "axios";
 import "./victimPage.css";
+import "./headerBar.css";
 
 export default function VictimPage() {
   const { user } = useContext(UserContext);
@@ -15,7 +16,9 @@ export default function VictimPage() {
     const getVictimInfo = async () => {
       const userid = user?.id;
       try {
-        const res = await axios.get(`https://shelter-haven.onrender.com/victim/${userid}`);
+        const res = await axios.get(
+          `https://shelter-haven.onrender.com/victim/${userid}`
+        );
         setProfile(res.data.profile);
         setShelter(res.data.shelter);
         setServices(res.data.services);
@@ -32,11 +35,14 @@ export default function VictimPage() {
       return;
     }
     try {
-      const res = await axios.post("https://shelter-haven.onrender.com/request", {
-        victim_id: user.id,
-        service_type: selectedService,
-        shelter_id: shelter.shelter_id,
-      });
+      const res = await axios.post(
+        "https://shelter-haven.onrender.com/request",
+        {
+          victim_id: user.id,
+          service_type: selectedService,
+          shelter_id: shelter.shelter_id,
+        }
+      );
       alert("Request submitted successfully!");
       console.log("Request response:", res.data);
     } catch (err) {
@@ -48,17 +54,12 @@ export default function VictimPage() {
   return (
     <div className="victim-page">
       <div className="top-bar">
-        <div className="welcome">
-          {user ? (
-            <>
-              <h1 className="welcome">
-                Welcome, {user.first_name} {user.last_name}!
-              </h1>
-            </>
-          ) : (
-            <p>Loading user info...</p>
-          )}
-        </div>
+        <img
+          src="/shelter_haven_logo.png"
+          alt="logo"
+          style={{ width: 75, marginRight: 20 }}
+        ></img>
+
         <div className="shelter-info">
           {shelter ? (
             <>
@@ -73,6 +74,17 @@ export default function VictimPage() {
             </>
           ) : (
             <p>Shelter info...</p>
+          )}
+        </div>
+        <div className="welcome">
+          {user ? (
+            <>
+              <h1 className="welcome">
+                Welcome, {user.first_name} {user.last_name}!
+              </h1>
+            </>
+          ) : (
+            <p>Loading user info...</p>
           )}
         </div>
       </div>

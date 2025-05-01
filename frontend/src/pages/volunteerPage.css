@@ -5,36 +5,10 @@
   place-items: flex-start;
 }
 
-/*-------- Header Bar Styling --------*/
-.top-bar {
-  display: flex;
-}
-.welcome {
-  flex: 1;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
-  margin-left: 10px;
-}
-.shelter-info {
-  display: flex;
-  flex-direction: column;
-  place-items: center;
-}
-.shelter-info h3,
-.shelter-info p {
-  margin: 4px 0;
-  line-height: 1.2;
-}
-
-hr {
-  width: 100%;
-}
 /*-------- Main Content Styling --------*/
 .body {
   display: flex;
   flex-direction: row;
-  width: 100%;
 }
 
 /*-------- Skills & Service Styling --------*/
@@ -43,15 +17,14 @@ hr {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  flex: 2;
-  padding-left: 10px;
 }
-.skill-service div {
+.skill-service-div {
   display: flex;
   align-items: center;
 }
 .skill-service h4 {
   line-height: 0.5;
+  margin: 0px;
 }
 .skill-service p {
   margin: 5px;
@@ -64,9 +37,9 @@ hr {
 
 /*-------- Shift Table Styling --------*/
 .shift-info {
-  flex-direction: column;
+  /* flex-direction: column;
   text-align: left;
-  align-self: flex-start;
+  align-self: flex-start; */
   margin: 5px;
 }
 .shift-info h3 {
@@ -74,10 +47,13 @@ hr {
   text-align: center;
   margin-bottom: 10px;
 }
+/* .shift-info div {
+  width: 100%;
+  text-align: center;
+} */
 
 /*-------- Resource Table Styling --------*/
 .resource-info {
-  flex: 2;
   margin: 5px;
 }
 .resource-info h3 {

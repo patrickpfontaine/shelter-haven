@@ -1,0 +1,28 @@
+/*-------- Header Bar Styling --------*/
+.top-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.welcome {
+  flex: 1;
+  font-size: 24px;
+  font-weight: bold;
+  width: 60vw;
+  text-align: center;
+}
+.shelter-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.shelter-info h3,
+.shelter-info p {
+  margin: 4px 0;
+  line-height: 1.2;
+}
+
+hr {
+  width: 100%;
+}

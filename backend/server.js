@@ -35,31 +35,31 @@ app.post("/login", async (req, res) => {
 /*-----------------------------------------------------
                     MANAGER PAGE
   ----------------------------------------------------*/
-  app.get("/manager/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const shifts = await volunteerQueries.getShifts(id);
-      const shelter = await volunteerQueries.getShelterInfo(id);
-      const skills = await volunteerQueries.getSkills(id);
-      const resources = await volunteerQueries.getReqResources(id);
-      const volunteerList = await managerQueries.getVolunteerList(id);
-      const victimList = await managerQueries.getVictimList(id);
-      const allRequests = await managerQueries.getAllRequests(id);
-      res.status(200).json({
-        shift: shifts,
-        shelter: shelter[0],
-        skills: skills,
-        resources: resources,
-        volunteerList: volunteerList,
-        victimList: victimList,
-        allRequests: allRequests,
-        
-      });
-    } catch (err) {
-      console.error("Error getting shifts:", err);
-      res.status(500).json({ error: err.message });
-    }
-  });
+app.get("/manager/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const shifts = await volunteerQueries.getShifts(id);
+    const shelter = await volunteerQueries.getShelterInfo(id);
+    const skills = await volunteerQueries.getSkills(id);
+    const resources = await managerQueries.getAllResources(id);
+    console.log(resources);
+    const volunteerList = await managerQueries.getVolunteerList(id);
+    const victimList = await managerQueries.getVictimList(id);
+    const allRequests = await managerQueries.getAllRequests(id);
+    res.status(200).json({
+      shift: shifts,
+      shelter: shelter[0],
+      skills: skills,
+      resources: resources,
+      volunteerList: volunteerList,
+      victimList: victimList,
+      allRequests: allRequests,
+    });
+  } catch (err) {
+    console.error("Error getting shifts:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 /*-----------------------------------------------------
                     VOLUNTEER PAGE
@@ -71,6 +71,7 @@ app.get("/volunteer/:id", async (req, res) => {
     const shelter = await volunteerQueries.getShelterInfo(id);
     const skills = await volunteerQueries.getSkills(id);
     const resources = await volunteerQueries.getReqResources(id);
+    console.log("volunteer", resources);
     const service = await volunteerQueries.getService(id);
     const requests = await volunteerQueries.getRequests(id);
     res.status(200).json({
@@ -97,7 +98,6 @@ app.post("/request/complete", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 
 /*-----------------------------------------------------
                     VICTIM PAGE

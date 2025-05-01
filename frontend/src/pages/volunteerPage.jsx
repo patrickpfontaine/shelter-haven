@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import axios from "axios";
 import "./volunteerPage.css";
-
+import "./headerBar.css";
 export default function VolunteerPage() {
   const { user } = useContext(UserContext);
   const [shift, setShift] = useState(null);
@@ -37,11 +37,14 @@ export default function VolunteerPage() {
       // console.log("ServiceType",request.service_type)
       // console.log("shelterID",shelter.shelter_id)
       // console.log("victimID",request.victim_id)
-      const res = await axios.post("https://shelter-haven.onrender.com/request/complete", {
-        service_type: request.service_type,
-        shelter_id: shelter.shelter_id,
-        victim_id: request.victim_id,
-      });
+      const res = await axios.post(
+        "https://shelter-haven.onrender.com/request/complete",
+        {
+          service_type: request.service_type,
+          shelter_id: shelter.shelter_id,
+          victim_id: request.victim_id,
+        }
+      );
       console.log("Request completed:", res.data);
       // delete the request
     } catch (err) {
@@ -52,17 +55,11 @@ export default function VolunteerPage() {
   return (
     <div className="volunteer-page">
       <div className="top-bar">
-        <div className="welcome">
-          {user ? (
-            <>
-              <h1 className="welcome">
-                Welcome, {user.first_name} {user.last_name}!
-              </h1>
-            </>
-          ) : (
-            <p>Loading user info...</p>
-          )}
-        </div>
+        <img
+          src="/shelter_haven_logo.png"
+          alt="logo"
+          style={{ width: 75, marginRight: 20 }}
+        ></img>
         <div className="shelter-info">
           {shelter ? (
             <>
@@ -79,11 +76,22 @@ export default function VolunteerPage() {
             <p>Shelter info...</p>
           )}
         </div>
+        <div className="welcome">
+          {user ? (
+            <>
+              <h1 className="welcome">
+                Welcome, {user.first_name} {user.last_name}!
+              </h1>
+            </>
+          ) : (
+            <p>Loading user info...</p>
+          )}
+        </div>
       </div>
       <hr />
       <div className="body">
         <div className="skill-service">
-          <div>
+          <div className="skill-service-div">
             <h4>Skills:</h4>
             {skills && skills.length > 0 ? (
               <p>
@@ -97,13 +105,12 @@ export default function VolunteerPage() {
               <p>No skills found.</p>
             )}
           </div>
-          <div>
-            <h4>Assigned service:</h4>
+          <div className="skill-service-div">
+            <h4>Service:</h4>
             {service ? <p>{service.service_type}</p> : <p>No service found.</p>}
           </div>
           <div className="shift-info">
             <div style={{ background: "lightgray" }}>
-              {" "}
               <h3>Your Shifts</h3>
             </div>
             {shift && shift.length > 0 ? (
@@ -133,7 +140,9 @@ export default function VolunteerPage() {
         </div>
 
         <div className="request-section">
-          <h2>Service Requests in Your Shelter</h2>
+          <h2 style={{ marginTop: 0, textAlign: "center" }}>
+            Service Requests
+          </h2>
           {requests && requests.length > 0 ? (
             <table className="table">
               <thead>
@@ -166,14 +175,15 @@ export default function VolunteerPage() {
         </div>
 
         <div className="resource-info">
-          <h3>Resources</h3>
+          <div style={{ backgroundColor: "lightgray" }}>
+            <h3>Resources</h3>
+          </div>
           {resources && resources.length > 0 ? (
             <table className="table">
               <thead>
                 <tr>
                   <th>Resource</th>
                   <th>Quantity in Stock</th>
-                  <th>Required Quantity</th>
                 </tr>
               </thead>
               <tbody>
@@ -181,7 +191,6 @@ export default function VolunteerPage() {
                   <tr key={index}>
                     <td>{r.resource_name}</td>
                     <td>{r.resource_quantity}</td>
-                    <td>{r.quantity}</td>
                   </tr>
                 ))}
               </tbody>

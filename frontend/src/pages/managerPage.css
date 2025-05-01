@@ -16,7 +16,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  width: 100%;
   padding: 1rem;
   padding-top: 0;
   gap: 4rem;
@@ -38,9 +37,6 @@
   font-weight: bold;
 }
 
-.skill {
-  word-spacing: 10px;
-}
 .full-row {
   flex-direction: column;
   text-align: left;
@@ -94,7 +90,7 @@
   text-align: center;
 }
 /*-------- Shift Table Styling --------*/
-.shift-info {
+/* .shift-info {
   flex-direction: column;
   text-align: left;
   align-self: flex-start;
@@ -103,4 +99,4 @@
 .shift-info h3 {
   justify-self: center;
   padding-bottom: 0;
-}
+} */

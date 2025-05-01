@@ -5,42 +5,10 @@
   place-items: flex-start;
 }
 
-/*-------- Header Bar Styling --------*/
-.top-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  padding: 15px 15px 4px 15px;
-}
-.welcome {
-  flex: 1;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
-  margin-left: 10px;
-}
-.shelter-info {
-  display: flex;
-  flex-direction: column;
-  flex: 2;
-  align-items: center;
-}
-.shelter-info h3,
-.shelter-info p {
-  margin: 4px 0;
-  line-height: 1.2;
-}
-
-hr {
-  width: 100%;
-}
-
 /*-------- Main Content Styling --------*/
 .body {
   display: flex;
   flex-direction: row;
-  width: 100%;
 }
 
 .service-info {

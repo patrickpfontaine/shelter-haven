@@ -3,6 +3,7 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../UserContext";
 import axios from "axios";
 import "./managerPage.css";
+import "./headerBar.css";
 
 export default function ManagerPage() {
   const { user } = useContext(UserContext);
@@ -21,6 +22,7 @@ export default function ManagerPage() {
         const res = await axios.get(
           `https://shelter-haven.onrender.com/manager/${userid}`
         );
+        console.log(res.data);
         setShift(res.data.shift);
         setShelter(res.data.shelter);
         setSkills(res.data.skills);
@@ -60,6 +62,11 @@ export default function ManagerPage() {
   return (
     <div className="volunteer-page">
       <div className="top-bar">
+        <img
+          src="/shelter_haven_logo.png"
+          alt="logo"
+          style={{ width: 75, marginRight: 20 }}
+        ></img>
         <div className="shelter-info">
           {shelter ? (
             <>

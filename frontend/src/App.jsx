@@ -51,41 +51,37 @@ function App() {
     }
   };
 
-  return (  
-      <div className="login-container">
-      <div className = "title">
-        <h>
-          Shelter Haven
-        </h>
+  return (
+    <div className="login-container">
+      <div className="title">
+        <h>Shelter Haven</h>
       </div>
-        <h2>Login</h2>
-        <form onSubmit={handleLogin}>
-          <div>
-            <label>Email:</label>
-            <br />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <br />
-          <div>
-            <label>Password:</label>
-            <br />
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <br />
-          <button type="submit">Log In</button>
-        </form>
-        {message && <p>{message}</p>}
-      </div>
+      <img src="/shelter_haven_logo.png" alt="logo"></img>
+      <h2 style={{ margin: 0 }}>Sign In</h2>
+      <form onSubmit={handleLogin}>
+        <div style={{ marginTop: 10 }}>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div style={{ marginTop: 10 }}>
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <br />
+        <button type="submit">Sign In</button>
+      </form>
+      {message && <p>{message}</p>}
+    </div>
   );
 }
 
