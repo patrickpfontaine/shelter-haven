@@ -15,7 +15,7 @@ export default function VictimPage() {
     const getVictimInfo = async () => {
       const userid = user?.id;
       try {
-        const res = await axios.get(`http://localhost:8081/victim/${userid}`);
+        const res = await axios.get(`https://shelter-haven.onrender.com/victim/${userid}`);
         setProfile(res.data.profile);
         setShelter(res.data.shelter);
         setServices(res.data.services);
@@ -32,7 +32,7 @@ export default function VictimPage() {
       return;
     }
     try {
-      const res = await axios.post("http://localhost:8081/request", {
+      const res = await axios.post("https://shelter-haven.onrender.com/request", {
         victim_id: user.id,
         service_type: selectedService,
         shelter_id: shelter.shelter_id,
